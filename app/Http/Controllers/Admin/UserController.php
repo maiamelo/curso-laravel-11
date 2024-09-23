@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 namespace App\Http\Controllers\Admin;
 
@@ -14,9 +14,10 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(15); // User::all();
+        $users = User::paginate(20); // User::all();
 
         return view('admin.users.index', compact('users'));
+        
     }
 
     public function create()
@@ -71,9 +72,9 @@ class UserController extends Controller
 
     public function destroy(string $id)
     {
-        // if (Gate::denies('is-admin')) {
-        //     return back()->with('message', 'Você não é um administrador');
-        // }
+        if (Gate::denies('is-admin')) {
+            return back()->with('message', 'Você não é um administrador');
+        }
         if (!$user = User::find($id)) {
             return redirect()->route('users.index')->with('message', 'Usuário não encontrado');
         }
@@ -86,4 +87,4 @@ class UserController extends Controller
             ->route('users.index')
             ->with('success', 'Usuário deletado com sucesso');
     }
-}
+} 
